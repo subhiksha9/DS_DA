@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include<conio.h>
+#define n 4
+
+void printSolution(int color[]);
+
+int isSafe(int graph[n][n], int color[])
+{
+	
+	for (int i = 0; i < n; i++)
+		for (int j = i + 1; j < n; j++)
+			if (graph[i][j] && color[j] == color[i])
+				return 0;
+	return 1;
+}
+
+int graphColoring(int graph[n][n], int m, int i,int color[n])
+{
+	
+	if (i == n)
+	{
+
+		if (isSafe(graph, color))
+		{
+		 	printSolution(color);
+			return 1;
+		}
+	  return 0;
+	}
+
+	
+	for (int j = 1; j <= m; j++)
+	{
+		 color[i] = j;
+
+		
+		if (graphColoring(graph, m, i + 1, color))
+			return 1;
+			 color[i] = 0;
+	}
+		  return 0;
+}
+void printSolution(int color[])
+{
+	printf("Solution Exists:"
+		" Following are the assigned colors \n");
+	for (int i = 0; i < n; i++)
+		printf(" %d ", color[i]);
+	printf("\n");
+}
+
+int main()
+{
+	       int graph[n][n] = {
+		{ 0, 1, 1, 1 },
+		{ 1, 0, 1, 0 },
+		{ 1, 1, 0, 1 },
+		{ 1, 0, 1, 0 },
+		};
+	int m = 3; 
+	int color[n];
+	for (int i = 0; i < n; i++)
+	     color[i] = 0;
+	if (!graphColoring(graph, m, 0, color))
+		printf("Solution does not exist");
+	return 0;
+}
